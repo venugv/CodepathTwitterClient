@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">CodePathTwitterClient</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_search">Search</string>
+    <string name="action_compose">Compose</string>
+    <string name="action_mail">Mail</string>
+    <string name="action_user">User</string>
+    <string name="pageText">Fragment #</string>
+    <string name="empty" />
+    <string name="title_activity_login">Login to Twitter</string>
+    <string name="login_button_text">Connect To Twitter</string>
+    <string name="about_twitter">About Twitter</string>
+    <string name="about_full_text">
+        <![CDATA[
+            <large><b>About Twitter</b></large><br/><br/>
+            <small>Twitter helps you create and share ideas and information<br/>instantly, without barriers</small>
+        ]]>
+    </string>
+    <string name="login_failure">Unable to login into twitter</string>
+    <string name="retweet_string">CBS Retweeted</string>
+    <string name="retweeted_user_name">%1$s retweeted</string>
+    <string name="screen_username">%1$s</string>
+    <string name="tweet_hint">What\'s happening?</string>
+    <string name="tweet_label">Tweet</string>
+    <string name="tweet_count">140</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="album_name">CameraSample</string>
+    <string name="title_activity_search">Search Results</string>
+    <string name="title_activity_tweet_detail">Tweet</string>
+    <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_user_list">User List</string>
+    <string name="action_profile">Profile</string>
+</resources>

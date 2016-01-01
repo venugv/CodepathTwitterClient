@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    cardElevation="8dp"
+    cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+
+    android:layout_marginTop="2dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_below="@id/ivRetweetUserIcon"
+            android:src="@mipmap/ic_launcher" />
+
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserRetweetName"
+            android:layout_toRightOf="@id/ivProfilePic"
+            android:text="David Selig"
+            android:textColor="@color/colorFont"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvUserNameHandle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserName"
+            android:layout_toRightOf="@id/ivProfilePic"
+            android:ellipsize="end"
+            android:text="\@DavidSelig"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="14sp" />
+
+
+        <ImageView
+            android:id="@+id/ivFollowing"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@id/tvUserName"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_follow_on"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvBodyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivProfilePic"
+            android:layout_below="@id/tvUserNameHandle"
+            android:autoLink="all"
+            android:text="Warriors streak broken!  The best start to an NBA season. Go Warriors! youtu.be/ugaskjghiT"
+            android:textColor="@color/colorFont"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

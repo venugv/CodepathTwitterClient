@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
+        android:title="@string/action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_compose"
+        android:icon="@drawable/ic_new_tweet"
+        android:orderInCategory="100"
+        android:title="@string/action_compose"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_mail"
+        android:icon="@drawable/ic_mail"
+        android:orderInCategory="100"
+        android:title="@string/action_mail"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_user"
+        android:icon="@drawable/ic_user"
+        android:orderInCategory="100"
+        android:title="@string/action_user"
+        app:showAsAction="always" />
+</menu>

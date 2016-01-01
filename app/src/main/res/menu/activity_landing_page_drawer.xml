@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/action_profile" />
+
+        <item
+            android:id="@+id/action_compose"
+            android:icon="@drawable/ic_new_tweet"
+            android:title="@string/action_compose" />
+        <item
+            android:id="@+id/action_mail"
+            android:icon="@drawable/ic_mail"
+            android:title="@string/action_mail" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+</menu>
