@@ -19,33 +19,75 @@
         <RelativeLayout
             android:id="@+id/rlProfileBackground"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
-            android:background="@color/secondary_text_color"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
 
             <ImageView
                 android:id="@+id/ivBackgroundPic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="175dp"
                 android:adjustViewBounds="true"
+                android:background="@color/colorPrimary"
                 android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="140dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/rounded_button"
                 android:padding="3dp" />
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ivBackgroundPic"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_button"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Edit profile"
+                android:textColor="@color/secondary_text_color"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnFollowingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ivBackgroundPic"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_blue_edge_button"
+                android:drawableLeft="@drawable/ic_follow_on"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Follow"
+                android:textColor="@color/primary_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/ltTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ivProfilePic"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -54,7 +96,7 @@
                     android:layout_height="20dp"
                     android:paddingTop="2dp"
                     android:text="NFL on ESPN"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorFont"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -74,10 +116,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ltTitle"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
                 android:paddingTop="2dp"
                 android:text="--NFL on ESPN"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorFont"
                 android:textSize="12sp" />
 
 
@@ -86,56 +128,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvScreenName"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
                 android:paddingTop="2dp"
                 android:text="NFL on ESPN safkl afjslak aglk saklg asga sghsakl gasklhg lsakhg "
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorFont"
                 android:textSize="12sp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvDisplayURL"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvUserDescription"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:id="@+id/tvLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="Bristol, CT "
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/ivGlow"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_toRightOf="@id/tvLocation"
-                    android:src="@drawable/ic_perch_glow_default" />
-
-                <TextView
-                    android:id="@+id/tvDisplayURL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/ivGlow"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="NFL.com "
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:paddingTop="2dp"
+                android:text="NFL.com "
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -144,32 +157,30 @@
             android:layout_height="36dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnFollowers"
-                style="?android:attr/borderlessButtonStyle"
+            <TextView
+                android:id="@+id/ivFollowers"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:background="@android:color/white"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:gravity="left|center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Followers"
+                android:text="15,912,234 Followers"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
 
 
-            <Button
-                android:id="@+id/btnFollowing"
-                style="?android:attr/borderlessButtonStyle"
+            <TextView
+                android:id="@+id/ivFollowing"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:background="@android:color/white"
+                android:paddingRight="15dp"
+                android:paddingEnd="15dp"
                 android:gravity="left|center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Following"
+                android:text="3423 Following"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
 
@@ -180,88 +191,6 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:gravity="center_vertical"
-            android:minHeight="32dp"
-            android:padding="5dp">
 
-            <Button
-                android:id="@+id/btnEditProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/rounded_button"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="Edit profile"
-                android:textColor="@color/secondary_text_color"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-
-            <Button
-                android:id="@+id/btnFollowingIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/rounded_blue_edge_button"
-                android:drawableLeft="@drawable/ic_follow_on"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="Follow"
-                android:textColor="@color/primary_color"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-
-            <ImageButton
-                android:id="@+id/btnNotificationsIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/btnFollowingIcon"
-                android:layout_alignTop="@id/btnFollowingIcon"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/btnFollowingIcon"
-                android:background="@drawable/rounded_button"
-                android:padding="5dp"
-                android:src="@drawable/ic_fave_off" />
-
-
-            <ImageButton
-                android:id="@+id/btnSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/btnFollowingIcon"
-                android:layout_alignParentLeft="true"
-                android:layout_alignTop="@id/btnFollowingIcon"
-                android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/rounded_button"
-                android:padding="5dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_settings" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#50D3D3D3" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

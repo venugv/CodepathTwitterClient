@@ -8,12 +8,14 @@ import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -196,25 +198,15 @@ public class ProfileHeadersAdapter extends ProfileAdapter<RecyclerView.ViewHolde
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(profileViewHolder.ivProfilePic);
 
-        if (TextUtils.isEmpty(currentUser.getBgURL())) {
-            profileViewHolder.ivBackgroundPic.setVisibility(View.INVISIBLE);
-        } else {
+        if (!TextUtils.isEmpty(currentUser.getBgURL())) {
             profileViewHolder.ivBackgroundPic.setVisibility(View.VISIBLE);
-            Glide.with(profileActivityWeakReference.get()).load(currentUser.getUrl())
+            Glide.with(profileActivityWeakReference.get()).load(currentUser.getBgURL())
                     .asBitmap()
                     .placeholder(R.mipmap.ic_launcher)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(profileViewHolder.ivBackgroundPic);
         }
-        profileViewHolder.ivBackgroundPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(profileActivityWeakReference.get(), ImageActivity.class);
-                intent.putExtra("media_url", currentUser.getBgURL());
-                holder.itemView.getContext().startActivity(intent);
-            }
-        });
 
         profileViewHolder.tvUserName.setText(currentUser.getName());
         if (currentUser.isVerified()) {
@@ -232,42 +224,33 @@ public class ProfileHeadersAdapter extends ProfileAdapter<RecyclerView.ViewHolde
             profileViewHolder.tvDescription.setText(currentUser.getDescription());
         }
 
-        profileViewHolder.ivGlow.setVisibility(View.VISIBLE);
-        if (TextUtils.isEmpty(currentUser.getLocation())) {
-            profileViewHolder.tvLocation.setVisibility(View.GONE);
-            profileViewHolder.ivGlow.setVisibility(View.GONE);
-        } else {
-            profileViewHolder.tvLocation.setVisibility(View.VISIBLE);
-            profileViewHolder.tvLocation.setText(currentUser.getLocation());
-        }
+//        if (TextUtils.isEmpty(currentUser.getLocation())) {
+//            profileViewHolder.tvLocation.setVisibility(View.GONE);
+//        } else {
+//            profileViewHolder.tvLocation.setVisibility(View.VISIBLE);
+//            profileViewHolder.tvLocation.setText(currentUser.getLocation());
+//        }
         if (TextUtils.isEmpty(currentUser.getDisplayURL())) {
             profileViewHolder.tvDisplayURL.setVisibility(View.GONE);
-            profileViewHolder.ivGlow.setVisibility(View.GONE);
         } else {
             profileViewHolder.tvDisplayURL.setVisibility(View.VISIBLE);
             profileViewHolder.tvDisplayURL.setText(currentUser.getDisplayURL());
         }
 
-        profileViewHolder.btnFollowing.setText(Html.fromHtml("<b>" + currentUser.getFollowingCount() + "</b><br>FOLLOWING"));
+        Spanned followingText = Html.fromHtml("<b>" + currentUser.getFollowingCount() + "</b> FOLLOWING");
+        Spanned followersText = Html.fromHtml("<b>" + currentUser.getFollowersCount() + "</b> FOLLOWERS");
 
-        profileViewHolder.btnFollowers.setText(Html.fromHtml("<b>" + currentUser.getFollowersCount() + "</b><br>FOLLOWERS"));
+        profileViewHolder.ivFollowing.setText(followingText, TextView.BufferType.SPANNABLE);
+
+        profileViewHolder.ivFollowers.setText(followersText, TextView.BufferType.SPANNABLE);
 
         if (currentUser.isCurrentUser()) {
             profileViewHolder.btnEditProfile.setVisibility(View.VISIBLE);
-            profileViewHolder.iBtnSettings.setVisibility(View.GONE);
-            profileViewHolder.iBtnNotifications.setVisibility(View.GONE);
             profileViewHolder.btnFollowingIcon.setVisibility(View.GONE);
         } else {
             profileViewHolder.btnEditProfile.setVisibility(View.GONE);
-            profileViewHolder.iBtnSettings.setVisibility(View.VISIBLE);
-            profileViewHolder.iBtnNotifications.setVisibility(View.VISIBLE);
-            if (currentUser.isNotifications()) {
-                profileViewHolder.iBtnNotifications.setImageResource(R.drawable.ic_fave_on);
-            } else {
-                profileViewHolder.iBtnNotifications.setImageResource(R.drawable.ic_fave_off);
-            }
 
-            profileViewHolder.btnFollowing.setVisibility(View.VISIBLE);
+            profileViewHolder.ivFollowing.setVisibility(View.VISIBLE);
             if (currentUser.isFollowing()) {
                 profileViewHolder.btnFollowingIcon.setText("Following");
                 profileViewHolder.btnFollowingIcon.setBackgroundResource((R.drawable.rounded_tweet_button));

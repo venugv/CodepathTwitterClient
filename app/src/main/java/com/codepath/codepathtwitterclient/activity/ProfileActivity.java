@@ -136,11 +136,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private int getLayoutManagerOrientation(int activityOrientation) {
-        if (activityOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            return LinearLayoutManager.VERTICAL;
-        } else {
-            return LinearLayoutManager.HORIZONTAL;
-        }
+//        if (activityOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+//            return LinearLayoutManager.VERTICAL;
+//        } else {
+//            return LinearLayoutManager.HORIZONTAL;
+//        }
+        return LinearLayoutManager.VERTICAL;
     }
 
     public RecyclerView getRecyclerView() {

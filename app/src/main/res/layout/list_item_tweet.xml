@@ -99,6 +99,7 @@
             android:autoLink="all"
             android:text="Warriors streak broken!  The best start to an NBA season. Go Warriors! youtu.be/ugaskjghiT"
             android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            android:textSize="14sp"
             android:textColor="@color/colorFont" />
 
         <ImageView

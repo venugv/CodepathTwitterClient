@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.codepathtwitterclient.R;
+import com.codepath.codepathtwitterclient.activity.ImageActivity;
 import com.codepath.codepathtwitterclient.activity.UserListActivity;
 import com.codepath.codepathtwitterclient.model.User;
 
@@ -22,15 +21,11 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder implements View.O
     ImageView ivProfileVerified;
     TextView tvScreenName;
     TextView tvDescription;
-    TextView tvLocation;
-    ImageView ivGlow;
     TextView tvDisplayURL;
-    Button btnFollowing;
-    Button btnFollowers;
+    TextView ivFollowing;
+    TextView ivFollowers;
     Button btnEditProfile;
     Button btnFollowingIcon;
-    ImageButton iBtnSettings;
-    ImageButton iBtnNotifications;
     ImageView ivBackgroundPic;
     User user;
 
@@ -38,34 +33,39 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
         ivBackgroundPic = (ImageView) itemView.findViewById(R.id.ivBackgroundPic);
+        ivBackgroundPic.setOnClickListener(this);
         tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
         ivProfileVerified = (ImageView) itemView.findViewById(R.id.ivProfileVerified);
         tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
         tvDescription = (TextView) itemView.findViewById(R.id.tvUserDescription);
-        tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
-        ivGlow = (ImageView) itemView.findViewById(R.id.ivGlow);
         tvDisplayURL = (TextView) itemView.findViewById(R.id.tvDisplayURL);
-        btnFollowing = (Button) itemView.findViewById(R.id.btnFollowing);
-        btnFollowing.setOnClickListener(this);
+        ivFollowing = (TextView) itemView.findViewById(R.id.ivFollowing);
+        ivFollowing.setOnClickListener(this);
         btnFollowingIcon = (Button) itemView.findViewById(R.id.btnFollowingIcon);
-        btnFollowers = (Button) itemView.findViewById(R.id.btnFollowers);
-        btnFollowers.setOnClickListener(this);
+        ivFollowers = (TextView) itemView.findViewById(R.id.ivFollowers);
+        ivFollowers.setOnClickListener(this);
         btnEditProfile = (Button) itemView.findViewById(R.id.btnEditProfile);
-        iBtnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
-        iBtnNotifications = (ImageButton) itemView.findViewById(R.id.btnNotificationsIcon);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.btnFollowers:
+            case R.id.ivFollowers:
                 startDisplayActivity("followers", user.getUserId());
                 break;
-            case R.id.btnFollowing:
+            case R.id.ivFollowing:
                 startDisplayActivity("friends", user.getUserId());
                 break;
+            case R.id.ivBackgroundPic:
+                displayImage();
         }
+    }
+
+    private void displayImage() {
+        Intent intent = new Intent(itemView.getContext(), ImageActivity.class);
+        intent.putExtra(ImageActivity.ARG_IMAGE_URI, user.getBgURL());
+        itemView.getContext().startActivity(intent);
     }
 
     private void startDisplayActivity(String type, String userID) {
