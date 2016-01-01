@@ -202,7 +202,6 @@ public class ProfileHeadersAdapter extends ProfileAdapter<RecyclerView.ViewHolde
             profileViewHolder.ivBackgroundPic.setVisibility(View.VISIBLE);
             Glide.with(profileActivityWeakReference.get()).load(currentUser.getBgURL())
                     .asBitmap()
-                    .placeholder(R.mipmap.ic_launcher)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(profileViewHolder.ivBackgroundPic);
