@@ -8,11 +8,12 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="2dp"
     android:layout_marginTop="2dp"
-    app:cardBackgroundColor="@android:color/white">
+    app:cardBackgroundColor="@color/colorPrimary">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
         <LinearLayout
             android:id="@+id/ltLeft"
