@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,14 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:cardBackgroundColor="@color/lighterBlue"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.codepath.codepathtwitterclient.activity.TweetDetailActivity"
-    tools:showIn="@layout/activity_tweet_detail">
+    app:cardBackgroundColor="@color/lighterBlue">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -127,7 +121,7 @@
                 android:autoLink="all"
                 android:linksClickable="true"
                 android:text="Warriors streak broken!  The best start to an NBA season. Go Warriors! youtu.be/ugaskjghiT"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
 
             <ImageView

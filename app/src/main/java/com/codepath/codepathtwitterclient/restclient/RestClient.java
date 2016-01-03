@@ -117,7 +117,7 @@ public class RestClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
-    public void getFriendsTimeLine(String userID, String maxID, AsyncHttpResponseHandler handler) {
+    public void getFriendsTimeLine(String userID, String screenName, String maxID, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("friends/list.json");
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(maxID)) {
@@ -127,11 +127,14 @@ public class RestClient extends OAuthBaseClient {
         if (!TextUtils.isEmpty(userID)) {
             params.put("user_id", userID);
         }
+        if (!TextUtils.isEmpty(screenName)) {
+            params.put("screen_name", screenName);
+        }
 
         client.get(apiUrl, params, handler);
     }
 
-    public void getFollowersTimeLine(String userID, String maxID, AsyncHttpResponseHandler handler) {
+    public void getFollowersTimeLine(String userID, String screenName, String maxID, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("followers/list.json");
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(maxID)) {
@@ -140,6 +143,9 @@ public class RestClient extends OAuthBaseClient {
         }
         if (!TextUtils.isEmpty(userID)) {
             params.put("user_id", userID);
+        }
+        if (!TextUtils.isEmpty(screenName)) {
+            params.put("screen_name", screenName);
         }
 
         client.get(apiUrl, params, handler);

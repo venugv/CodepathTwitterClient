@@ -55,10 +55,14 @@
         <activity
             android:name=".activity.ImageActivity"
             android:label="@string/title_activity_image"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.UserListActivity"
             android:label="@string/title_activity_image"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.FriendsAndFavoritesActivity"
+            android:label="@string/title_activity_friends_and_favorites"
             android:theme="@style/AppTheme"></activity>
     </application>
 

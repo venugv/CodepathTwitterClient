@@ -2,14 +2,17 @@ package com.codepath.codepathtwitterclient.adapter;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.codepathtwitterclient.R;
+import com.codepath.codepathtwitterclient.activity.FriendsAndFavoritesActivity;
 import com.codepath.codepathtwitterclient.activity.ImageActivity;
 import com.codepath.codepathtwitterclient.activity.UserListActivity;
+import com.codepath.codepathtwitterclient.fragment.TweetFragment;
 import com.codepath.codepathtwitterclient.model.User;
 
 /**
@@ -52,10 +55,10 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder implements View.O
         int id = view.getId();
         switch (id) {
             case R.id.ivFollowers:
-                startDisplayActivity("followers", user.getUserId());
+                startDisplayActivity("followers");
                 break;
             case R.id.ivFollowing:
-                startDisplayActivity("friends", user.getUserId());
+                startDisplayActivity("friends");
                 break;
             case R.id.ivBackgroundPic:
                 displayImage();
@@ -68,10 +71,15 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder implements View.O
         itemView.getContext().startActivity(intent);
     }
 
-    private void startDisplayActivity(String type, String userID) {
-        Intent intent = new Intent(itemView.getContext(), UserListActivity.class);
-        intent.putExtra("type", type);
-        intent.putExtra("user_id", userID);
+    private void startDisplayActivity(String type) {
+        Intent intent = new Intent(itemView.getContext(), FriendsAndFavoritesActivity.class);
+        intent.putExtra(TweetFragment.ARG_PARAM1, type);
+        intent.putExtra(TweetFragment.USER_ID, user.getUserId());
+        String screenName = user.getScreenName();
+        if (!TextUtils.isEmpty(screenName) && screenName.startsWith("@")) {
+            screenName = screenName.substring(1);
+        }
+        intent.putExtra(TweetFragment.SCREEN_NAME, screenName);
         itemView.getContext().startActivity(intent);
     }
 

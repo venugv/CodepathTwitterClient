@@ -23,6 +23,7 @@ import com.codepath.codepathtwitterclient.fragment.TweetFragment;
 import com.codepath.codepathtwitterclient.model.Tweet;
 import com.codepath.codepathtwitterclient.model.User;
 import com.codepath.codepathtwitterclient.utils.DividerDecoration;
+import com.codepath.codepathtwitterclient.utils.EndlessRecyclerOnScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
@@ -38,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
     private User user;
     private List<Tweet> tweetList;
     private ProfileHeadersAdapter adapter;
+    private String maxID;
+    private EndlessRecyclerOnScrollListener endlessScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,14 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
         recyclerView.addOnItemTouchListener(touchListener);
+        endlessScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                // start searching
+                fetchData(maxID);
+            }
+        };
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -110,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                 headersDecor.invalidateHeaders();
             }
         });
-        fetchData();
+        fetchData(null);
     }
 
     @Override
@@ -136,11 +147,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private int getLayoutManagerOrientation(int activityOrientation) {
-//        if (activityOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-//            return LinearLayoutManager.VERTICAL;
-//        } else {
-//            return LinearLayoutManager.HORIZONTAL;
-//        }
         return LinearLayoutManager.VERTICAL;
     }
 
@@ -148,15 +154,20 @@ public class ProfileActivity extends AppCompatActivity {
         return recyclerView;
     }
 
-    private void fetchData() {
+    private void fetchData(final String maxID) {
         String userID = user.getUserId();
-        CodePathTwitterClientApp.getRestClient().getUserTimeLine(userID, null, new JsonHttpResponseHandler() {
+        CodePathTwitterClientApp.getRestClient().getUserTimeLine(userID, maxID, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
                 ArrayList<Tweet> tweetList = Tweet.fromJson(response, TweetFragment.USER_TWEETS_TYPE);
-                adapter.clear(false);
-                adapter.add(new Tweet());
+                if (tweetList.size() > 0) {
+                    ProfileActivity.this.maxID = tweetList.get(tweetList.size() - 1).getTweetID();
+                }
+                int originalSize = adapter.getItemCount();
+                if (originalSize == 0) {
+                    adapter.clear(false);
+                    adapter.add(new Tweet());
+                }
                 adapter.addAll(adapter.getSelectedTab(), tweetList);
             }
 

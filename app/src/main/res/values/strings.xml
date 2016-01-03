@@ -37,4 +37,6 @@
     <string name="title_activity_image">ImageActivity</string>
     <string name="title_activity_user_list">User List</string>
     <string name="action_profile">Profile</string>
+    <string name="title_activity_friends_and_favorites">FriendsAndFavoritesActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

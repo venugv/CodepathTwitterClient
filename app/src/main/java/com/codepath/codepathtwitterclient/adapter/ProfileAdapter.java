@@ -36,16 +36,25 @@ public abstract class ProfileAdapter<VH extends RecyclerView.ViewHolder>
 
     public void addAll(int selectedTab, Collection<? extends Tweet> collection) {
         this.selectedTab = selectedTab;
+        int originalCount = originalCount = items.size();
+        if (selectedTab == 1) {
+            originalCount = curatedItems.size();
+        }
         if (collection != null && collection.size() > 0) {
             items.addAll(collection);
-            curatedItems.clear();
-            curatedItems.add(items.get(0));
-            for (Tweet tweet: items) {
+            if (originalCount == 0) {
+                curatedItems.add(items.get(0));
+            }
+            for (Tweet tweet: collection) {
                 if (!TextUtils.isEmpty(tweet.getMediaURL())) {
                     curatedItems.add(tweet);
                 }
             }
-            notifyDataSetChanged();
+            if (originalCount == 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyItemInserted(originalCount + 1);
+            }
         }
     }
 

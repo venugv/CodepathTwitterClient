@@ -1,6 +1,7 @@
 package com.codepath.codepathtwitterclient.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.codepath.codepathtwitterclient.R;
+import com.codepath.codepathtwitterclient.activity.ProfileActivity;
 import com.codepath.codepathtwitterclient.model.User;
 
 import java.util.List;
@@ -75,7 +77,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersViewHolder> {
         this.userList = userList;
     }
 
-    private void startProfileActivity(String userId) {
-        //
+    private void startProfileActivity(String userID) {
+        Intent intent = new Intent(this.context, ProfileActivity.class);
+        intent.putExtra("user_id", userID);
+        this.context.startActivity(intent);
     }
 }

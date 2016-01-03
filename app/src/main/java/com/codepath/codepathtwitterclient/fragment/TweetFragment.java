@@ -30,6 +30,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,11 +42,12 @@ import java.util.concurrent.CountDownLatch;
  */
 public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     public static final String ARG_PAGE = "ARG_PAGE";
-    private static final String ARG_PARAM1 = "type";
+    public static final String ARG_PARAM1 = "type";
     private static final int HOME_TWEETS_TYPE = 1 << 0;
     private static final int MENTIONS_TWEETS_TYPE = 1 << 1;
     public static final int USER_TWEETS_TYPE = 1 << 2;
     public static final String USER_ID = "user_id";
+    public static final String SCREEN_NAME = "screen_name";
     public static final String SEARCH_STRING = "search_string";
     private static final String TAG = TweetFragment.class.getName();
     private final CountDownLatch networkRequestDoneSignal = new CountDownLatch(1);
@@ -61,6 +63,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private String param1;
     private String maxID;
     private String userId;
+    private String screenName;
     private String searchString;
     private RestClient restClient;
 
@@ -88,8 +91,10 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
             }
             userId = getArguments().getString(USER_ID);
+            screenName = getArguments().getString(SCREEN_NAME);
             if (TextUtils.isEmpty(userId)) {
                 userId = User.getCurrentUser().getUserId();
+                screenName = User.getCurrentUser().getScreenName();
             }
             searchString = getArguments().getString(SEARCH_STRING);
         }
@@ -120,7 +125,9 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onLoadMore(int currentPage) {
                 // start searching
-                loadTweetsFromNetwork(maxID);
+                if (!TextUtils.isEmpty(maxID)) {
+                    loadTweetsFromNetwork(maxID);
+                }
             }
         };
         recyclerView.addOnScrollListener(endlessScrollListener);
@@ -210,7 +217,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
                 ArrayList<User> list = User.fromJson(jsonArray);
                 if (TextUtils.isEmpty(maxID) || usersAdapter == null) {
-                    usersAdapter = new UsersAdapter(getActivity(), new ArrayList<User>());
+                    usersAdapter = new UsersAdapter(getActivity(), list);
                     recyclerView.setAdapter(usersAdapter);
                     usersAdapter.notifyDataSetChanged();
                 }
@@ -245,6 +252,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
+        maxID = null;
         loadTweetsFromNetwork(null);
         swipeContainer.setRefreshing(false);
     }
@@ -264,6 +272,9 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             tweetsAdapter.getTweetList().addAll(tweetArrayList);
             tweetsAdapter.notifyItemRangeInserted(oldSize+1, tweetArrayList.size());
         }
+        if (tweetArrayList.size() > 0) {
+            maxID = tweetArrayList.get(tweetArrayList.size() - 1).getTweetID();
+        }
     }
 
     private void loadTweetsFromNetwork(String max) {
@@ -271,7 +282,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void loadTweetsFromNetwork(String max, final boolean await) {
-            endlessScrollListener.setLoading(true);
+        endlessScrollListener.setLoading(true);
         boolean isActiveNetwork = Utils.isNetworkAvailable(getActivity());
 
         maxID = max;
@@ -307,13 +318,13 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             }
         } else if (param1.equals("friends")) {
             if (isActiveNetwork) {
-                restClient.getFriendsTimeLine(userId, max, usersJsonResponseHandler);
+                restClient.getFriendsTimeLine(userId, screenName, max, usersJsonResponseHandler);
             } else {
                 Snackbar.make(recyclerView, "No Internet connection. Please try again later.", Snackbar.LENGTH_LONG).show();
             }
         } else if (param1.equals("followers")) {
             if (isActiveNetwork) {
-                restClient.getFollowersTimeLine(userId, max, usersJsonResponseHandler);
+                restClient.getFollowersTimeLine(userId, screenName, max, usersJsonResponseHandler);
             } else {
                 Snackbar.make(recyclerView, "No Internet connection. Please try again later.", Snackbar.LENGTH_LONG).show();
             }

@@ -79,7 +79,6 @@ public class TweetDetailActivity extends AppCompatActivity implements CreateTwee
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-            super.onSuccess(statusCode, headers, response);
             tweet = Tweet.fromJson(response, -1);
             populateViews(tweet);
         }
