@@ -52,8 +52,6 @@ The following advanced user stories are completed:
   * [x] Leverage the popular GSON library to streamline the parsing of JSON data.
   * [ ] User can view their Twitter direct messages (and/or send new ones)
 
-####Points to Note:
-  * [x] No API to find replies to a tweet, hence the TweetDetail view is incomplete
 
 Libraries used: android-async-http-1.4.9, Glide-3.6, Mike Ortiz's TouchView, CardView-v7, jackson-2.0.1 and android-support-appcompat-v7.
 
