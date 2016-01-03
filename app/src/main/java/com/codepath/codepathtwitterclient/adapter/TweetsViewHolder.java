@@ -60,6 +60,7 @@ public class TweetsViewHolder extends RecyclerView.ViewHolder implements View.On
         this.tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
         this.tvUserNameHandle = (TextView) itemView.findViewById(R.id.tvUserNameHandle);
         this.tvBodyText = (TextView) itemView.findViewById(R.id.tvBodyText);
+        this.tvBodyText.setOnClickListener(this);
         this.tvCreatedAtTime = (TextView) itemView.findViewById(R.id.tvCreatedAtTime);
         this.btnReply = (Button) itemView.findViewById(R.id.btnReply);
         setOnClickListener(this.btnReply);

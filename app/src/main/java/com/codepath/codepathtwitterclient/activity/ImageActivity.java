@@ -26,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
@@ -35,7 +34,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.codepath.codepathtwitterclient.R;
-import com.codepath.codepathtwitterclient.fragment.TweetFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -184,30 +182,19 @@ public class ImageActivity extends AppCompatActivity {
     public void onShareItem() {
         // Get access to bitmap image from view
         // Get access to the URI for the bitmap
-        verifyStoragePermissions();
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                final Uri bmpUri = getLocalBitmapUri(ivFullImage);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (bmpUri != null) {
-                            // Construct a ShareIntent with link to image
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                            shareIntent.setType("image/*");
-                            // Launch sharing dialog for image
-                            startActivity(Intent.createChooser(shareIntent, "Share Image"));
-                        } else {
-                            Snackbar.make(ivFullImage, "Unable to share this image", Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        };
-        new Thread(r).start();
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        } else {
+            shareItem();
+        }
     }
 
     // Returns the URI path to the Bitmap displayed in specified ImageView
@@ -236,22 +223,35 @@ public class ImageActivity extends AppCompatActivity {
         return bmpUri;
     }
 
-    /**
-     * Checks if the app has permission to write to device storage
-     * <p/>
-     * If the app does not has permission then the user will be prompted to grant permissions
-     */
-    public void verifyStoragePermissions() {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    shareItem();
+                } else {
+                    Snackbar.make(ivFullImage, "Unable to share this image", Snackbar.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+    private void shareItem() {
+        final Uri bmpUri = getLocalBitmapUri(ivFullImage);
+        if (bmpUri != null) {
+            // Construct a ShareIntent with link to image
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareIntent.setType("image/*");
+            // Launch sharing dialog for image
+            startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        } else {
+            Snackbar.make(ivFullImage, "Unable to share this image", Snackbar.LENGTH_LONG).show();
         }
     }
 

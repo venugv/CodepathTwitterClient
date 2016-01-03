@@ -84,7 +84,17 @@ public class TweetDetailActivity extends AppCompatActivity implements CreateTwee
                     e.printStackTrace();
                 }
                 ArrayList<Tweet> list = Tweet.fromJson(jsonArray, TweetFragment.REPLIES_TWEETS_TYPE);
-                updateReplies(list);
+                if (list == null || list.size() == 0) {
+                    return;
+                }
+                List<Tweet> replyToList = new ArrayList<>();
+                for (Tweet tweetObj: list) {
+                    if (!TextUtils.isEmpty(tweetObj.getInReplyTo()) &&
+                            tweetObj.getInReplyTo().trim().equalsIgnoreCase(tweet.getTweetID())) {
+                        replyToList.add(tweetObj);
+                    }
+                }
+                updateReplies(replyToList);
             }
 
             @Override
@@ -110,7 +120,7 @@ public class TweetDetailActivity extends AppCompatActivity implements CreateTwee
         tweetDetailAdapter = new TweetDetailAdapter(this, tweetJSONReponseHandler);
         recyclerView.setAdapter(tweetDetailAdapter);
         tweetDetailAdapter.add(tweet, true);
-        //loadReplies();
+        loadReplies();
     }
 
     @Override
@@ -192,7 +202,8 @@ public class TweetDetailActivity extends AppCompatActivity implements CreateTwee
 
     private void loadReplies() {
         if (Utils.isNetworkAvailable(this)) {
-            restClient.getReplyToTweets(tweet.getTweetID(), maxID, searchJSONResponseHandler);
+            restClient.getReplyToTweets(tweet.getTweetID(), tweet.getUser().getScreenName(),
+                    maxID, searchJSONResponseHandler);
         } else {
             Snackbar.make(recyclerView, "No Internet connection. Please try again later.", Snackbar.LENGTH_LONG).show();
         }

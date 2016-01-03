@@ -48,6 +48,8 @@ public class Tweet extends Model {
     public boolean retweeted;
     @Column(name = "media_url")
     public String mediaURL;
+    @Column(name = "in_reply_to_status_id_str")
+    private String inReplyTo;
 
     @Column(name = "type")
     public int type;
@@ -86,6 +88,7 @@ public class Tweet extends Model {
             _tweet.createdAt = tweet.getString("created_at");
             _tweet.favorited = tweet.getBoolean("favorited");
             _tweet.retweeted = tweet.getBoolean("retweeted");
+            _tweet.inReplyTo = tweet.getString("in_reply_to_status_id_str");
 
             NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
             _tweet.favoriteCount = formatter.format(tweet.getLong("favorite_count"));
@@ -273,5 +276,13 @@ public class Tweet extends Model {
     @Override
     public String toString() {
         return "tweetID=" + super.getId();
+    }
+
+    public String getInReplyTo() {
+        return inReplyTo;
+    }
+
+    public void setInReplyTo(String inReplyTo) {
+        this.inReplyTo = inReplyTo;
     }
 }

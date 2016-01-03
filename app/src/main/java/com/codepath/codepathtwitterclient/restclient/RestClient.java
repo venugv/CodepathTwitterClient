@@ -179,10 +179,10 @@ public class RestClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
-    public void getReplyToTweets(String tweetID, String maxID, AsyncHttpResponseHandler handler) {
+    public void getReplyToTweets(String tweetID, String screenName, String maxID, AsyncHttpResponseHandler handler) {
         String api = getApiUrl("search/tweets.json");;
         RequestParams params = new RequestParams();
-        params.put("q", "in-reply-to-tweet-id:" + tweetID);
+        params.put("q", "to:" + screenName);
         if (!TextUtils.isEmpty(maxID)) {
             params.put("max_id", "" + (Long.parseLong(maxID) - 1));
             params.put("count", "80");
