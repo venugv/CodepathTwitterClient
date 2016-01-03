@@ -55,5 +55,3 @@ The following advanced user stories are completed:
 
 Libraries used: android-async-http-1.4.9, Glide-3.6, Mike Ortiz's TouchView, CardView-v7, jackson-2.0.1 and android-support-appcompat-v7.
 
-####Demo:
-![Video Walkthrough](demo.gif)
