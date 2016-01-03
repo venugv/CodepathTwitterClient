@@ -179,6 +179,20 @@ public class RestClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
+    public void getReplyToTweets(String tweetID, String maxID, AsyncHttpResponseHandler handler) {
+        String api = getApiUrl("search/tweets.json");;
+        RequestParams params = new RequestParams();
+        params.put("q", "in-reply-to-tweet-id:" + tweetID);
+        if (!TextUtils.isEmpty(maxID)) {
+            params.put("max_id", "" + (Long.parseLong(maxID) - 1));
+            params.put("count", "80");
+        }
+        params.put("since_id", tweetID);
+        params.put("include_entities", 1);
+
+        client.get(api, params, handler);
+    }
+
     public void getUserCredentials(AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("/account/verify_credentials.json");
         client.get(apiUrl, null, handler);

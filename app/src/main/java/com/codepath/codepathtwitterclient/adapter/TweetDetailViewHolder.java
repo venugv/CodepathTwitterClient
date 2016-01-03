@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.codepath.codepathtwitterclient.CodePathTwitterClientApp;
 import com.codepath.codepathtwitterclient.R;
 import com.codepath.codepathtwitterclient.activity.ImageActivity;
+import com.codepath.codepathtwitterclient.activity.ProfileActivity;
 import com.codepath.codepathtwitterclient.activity.TweetDetailActivity;
 import com.codepath.codepathtwitterclient.fragment.CreateTweetFragment;
 import com.codepath.codepathtwitterclient.model.Tweet;
@@ -23,6 +24,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by vvenkatraman on 1/2/16.
@@ -49,12 +52,13 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
     public Tweet tweet;
     private RestClient restClient;
     public JsonHttpResponseHandler tweetJSONReponseHandler;
-    public TweetDetailActivity activity;
+    public WeakReference<TweetDetailActivity> activityWeakReference;
     public TweetDetailViewHolder(final View itemView) {
         super(itemView);
         restClient = CodePathTwitterClientApp.getRestClient();
         ivRetweetIcon = (ImageView) itemView.findViewById(R.id.ivRetweetUserIcon);
         ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
+        ivProfilePic.setOnClickListener(this);
         tvUserRetweetName = (TextView) itemView.findViewById(R.id.tvUserRetweetName);
         tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
         tvUserNameHandle = (TextView) itemView.findViewById(R.id.tvUserNameHandle);
@@ -66,12 +70,7 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
         btnFavorite = (ImageButton) itemView.findViewById(R.id.btnFavorite);
         btnFavorite.setOnClickListener(this);
         btnShare = (ImageButton) itemView.findViewById(R.id.btnShare);
-        btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onShareItem(tweet);
-            }
-        });
+        btnShare.setOnClickListener(this);
         btnDelete = (ImageButton) itemView.findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(this);
         tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
@@ -83,7 +82,7 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
         btnReply.setOnClickListener(this);
     }
 
-    public void onShareItem(Tweet tweet) {
+    public void onShareItem(TweetDetailActivity activity) {
         if (tweet != null) {
             String text = "Check out " + tweet.getUser().getScreenName() + "'s Tweet: https://twitter.com/" + tweet.getUser().getScreenName().substring(1) + "/status/" + tweet.getTweetId();
             Intent sendIntent = new Intent();
@@ -95,7 +94,7 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
         }
     }
 
-    private void retweet() {
+    private void retweet(final TweetDetailActivity activity) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
         dialog.setTitle("Retweet").setMessage("Retweet this to your followers?")
                 .setPositiveButton("Retweet", new DialogInterface.OnClickListener() {
@@ -115,7 +114,7 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
                 }).show();
     }
 
-    private void deleteTweet() {
+    private void deleteTweet(final TweetDetailActivity activity) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
         dialog.setTitle("Delete").setMessage("Are you sure you want to delete?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -147,38 +146,52 @@ public class TweetDetailViewHolder extends RecyclerView.ViewHolder implements Vi
         }
     }
 
-    private void displayImage() {
+    private void displayImage(TweetDetailActivity activity) {
         Intent imageIntent = new Intent(itemView.getContext(), ImageActivity.class);
         imageIntent.putExtra(ImageActivity.ARG_IMAGE_URI, tweet.getMediaURL());
         activity.startActivity(imageIntent);
     }
 
-    private void replyTweet() {
+    private void replyTweet(TweetDetailActivity activity) {
         String status = tvUserNameHandle.getText().toString();
         DialogFragment fragment = CreateTweetFragment.getInstance(status);
         fragment.show(activity.getFragmentManager(), "dialog");
     }
 
+    private void startProfileActivity(TweetDetailActivity activity, String userID) {
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra("user_id", userID);
+        activity.startActivity(intent);
+    }
+
+
     @Override
     public void onClick(View v) {
-        if (tweet == null) {
+        if (activityWeakReference.get() == null || tweet == null) {
             return;
         }
+        TweetDetailActivity activity = activityWeakReference.get();
         switch (v.getId()) {
             case R.id.btnRetweet:
-                retweet();
+                retweet(activity);
                 break;
             case R.id.btnDelete:
-                deleteTweet();
+                deleteTweet(activity);
                 break;
             case R.id.btnFavorite:
                 favoriteTweet();
                 break;
             case R.id.ivMedia:
-                displayImage();
+                displayImage(activity);
                 break;
             case R.id.btnReply:
-                replyTweet();
+                replyTweet(activity);
+                break;
+            case R.id.btnShare:
+                onShareItem(activity);
+                break;
+            case R.id.ivProfilePic:
+                startProfileActivity(activity, tweet.getUser().getUserId());
                 break;
         }
     }

@@ -36,7 +36,7 @@ public abstract class ProfileAdapter<VH extends RecyclerView.ViewHolder>
 
     public void addAll(int selectedTab, Collection<? extends Tweet> collection) {
         this.selectedTab = selectedTab;
-        int originalCount = originalCount = items.size();
+        int originalCount = items.size();
         if (selectedTab == 1) {
             originalCount = curatedItems.size();
         }
@@ -53,7 +53,7 @@ public abstract class ProfileAdapter<VH extends RecyclerView.ViewHolder>
             if (originalCount == 0) {
                 notifyDataSetChanged();
             } else {
-                notifyItemInserted(originalCount + 1);
+                notifyItemRangeInserted(originalCount + 1, collection.size());
             }
         }
     }

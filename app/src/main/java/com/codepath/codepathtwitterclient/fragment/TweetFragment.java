@@ -30,7 +30,6 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,12 +42,13 @@ import java.util.concurrent.CountDownLatch;
 public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     public static final String ARG_PAGE = "ARG_PAGE";
     public static final String ARG_PARAM1 = "type";
-    private static final int HOME_TWEETS_TYPE = 1 << 0;
-    private static final int MENTIONS_TWEETS_TYPE = 1 << 1;
     public static final int USER_TWEETS_TYPE = 1 << 2;
     public static final String USER_ID = "user_id";
     public static final String SCREEN_NAME = "screen_name";
     public static final String SEARCH_STRING = "search_string";
+    public static final int HOME_TWEETS_TYPE = 1 << 0;
+    public static final int MENTIONS_TWEETS_TYPE = 1 << 1;
+    public static final int REPLIES_TWEETS_TYPE = 1 << 2;
     private static final String TAG = TweetFragment.class.getName();
     private final CountDownLatch networkRequestDoneSignal = new CountDownLatch(1);
     public JsonHttpResponseHandler tweetsJsonResponseHandler;
@@ -176,7 +176,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 Log.d(TAG, "Search response callback array received???????");
             }
 
-                @Override
+            @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray jsonArray = null;
                 try {
@@ -220,8 +220,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     usersAdapter = new UsersAdapter(getActivity(), list);
                     recyclerView.setAdapter(usersAdapter);
                     usersAdapter.notifyDataSetChanged();
-                }
-                else if (list.isEmpty()) {
+                } else if (list.isEmpty()) {
                     usersAdapter.notifyDataSetChanged();
                 } else {
                     int lastItemPos = usersAdapter.getItemCount();
@@ -259,7 +258,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private void updateTweetsAdapter(List<Tweet> tweetArrayList) {
         endlessScrollListener.setLoading(false);
-        tweetsAdapter = (TweetsAdapter)recyclerView.getAdapter();
+        tweetsAdapter = (TweetsAdapter) recyclerView.getAdapter();
         if (tweetsAdapter == null) {
             tweetsAdapter = new TweetsAdapter(this, tweetArrayList);
             recyclerView.setAdapter(tweetsAdapter);
@@ -270,7 +269,7 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         } else {
             int oldSize = tweetsAdapter.getItemCount();
             tweetsAdapter.getTweetList().addAll(tweetArrayList);
-            tweetsAdapter.notifyItemRangeInserted(oldSize+1, tweetArrayList.size());
+            tweetsAdapter.notifyItemRangeInserted(oldSize + 1, tweetArrayList.size());
         }
         if (tweetArrayList.size() > 0) {
             maxID = tweetArrayList.get(tweetArrayList.size() - 1).getTweetID();
