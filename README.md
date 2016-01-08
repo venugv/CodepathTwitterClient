@@ -3,7 +3,7 @@ CodepathTwitterClient
 
 Twitter with Fragments
 
-####Total time spent: 240 Hours
+####Total time spent: 140 Hours
 
 ####User Stories:
   * [x] User can sign in to Twitter using OAuth login
